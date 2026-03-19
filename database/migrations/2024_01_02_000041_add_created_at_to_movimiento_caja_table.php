@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('producto_presentacion', function (Blueprint $table) {
-            $table->decimal('costo', 10, 2)->nullable()->after('precio');
+        Schema::table('movimiento_caja', function (Blueprint $table) {
+            $table->timestamp('created_at')->useCurrent()->after('id');
         });
     }
 
     public function down(): void
     {
-        Schema::table('producto_presentacion', function (Blueprint $table) {
-            $table->dropColumn('costo');
+        Schema::table('movimiento_caja', function (Blueprint $table) {
+            $table->dropColumn('created_at');
         });
     }
 };
