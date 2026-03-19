@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('producto_presentacion', function (Blueprint $table) {
-            $table->decimal('costo', 10, 2)->nullable()->after('precio');
+        Schema::table('producto', function (Blueprint $table) {
+            $table->boolean('permitir_stock_negativo')->default(false)->after('visible_en_pos');
         });
     }
 
     public function down(): void
     {
-        Schema::table('producto_presentacion', function (Blueprint $table) {
-            $table->dropColumn('costo');
+        Schema::table('producto', function (Blueprint $table) {
+            $table->dropColumn('permitir_stock_negativo');
         });
     }
 };
