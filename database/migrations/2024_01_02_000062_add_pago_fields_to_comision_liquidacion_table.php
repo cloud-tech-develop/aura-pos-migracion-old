@@ -17,6 +17,7 @@ return new class extends Migration
 
     public function down(): void
     {
+        
         Schema::table('comision_liquidacion', function (Blueprint $table) {
             $table->dropForeign(['cuenta_bancaria_id']);
             $table->dropColumn(['metodo_pago', 'cuenta_bancaria_id']);
