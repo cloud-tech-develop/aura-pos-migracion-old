@@ -9,8 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('usuario', function (Blueprint $table) {
-            $table->bigInteger('empleado_id')->nullable()->unique()->after('tercero_id');
-            $table->foreign('empleado_id')->references('id')->on('empleados');
+            if (!Schema::hasColumn('usuario', 'empleado_id')) {
+                $table->bigInteger('empleado_id')->nullable()->unique()->after('tercero_id');
+                $table->foreign('empleado_id')->references('id')->on('empleados');
+            }
         });
     }
 
