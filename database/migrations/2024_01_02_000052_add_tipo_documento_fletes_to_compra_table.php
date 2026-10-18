@@ -9,8 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('compra', function (Blueprint $table) {
-            $table->string('tipo_documento', 30)->default('FACTURA_COMPRA')->after('estado');
-            $table->decimal('fletes', 15, 2)->default(0)->after('tipo_documento');
+            if (!Schema::hasColumn('compra', 'tipo_documento')) {
+                $table->string('tipo_documento', 30)->default('FACTURA_COMPRA')->after('estado');
+            }
+            if (!Schema::hasColumn('compra', 'fletes')) {
+                $table->decimal('fletes', 15, 2)->default(0)->after('tipo_documento');
+            }
         });
     }
 

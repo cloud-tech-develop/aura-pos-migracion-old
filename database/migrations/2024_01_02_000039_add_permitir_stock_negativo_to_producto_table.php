@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('producto', function (Blueprint $table) {
-            $table->boolean('permitir_stock_negativo')->default(false)->after('visible_en_pos');
+            if (!Schema::hasColumn('producto', 'permitir_stock_negativo')) {
+                $table->boolean('permitir_stock_negativo')->default(false)->after('visible_en_pos');
+            }
         });
     }
 

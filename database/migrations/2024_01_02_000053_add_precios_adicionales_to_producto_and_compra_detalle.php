@@ -9,14 +9,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('producto', function (Blueprint $table) {
-            $table->decimal('precio_2', 15, 2)->nullable()->after('precio');
-            $table->decimal('precio_3', 15, 2)->nullable()->after('precio_2');
+            if (!Schema::hasColumn('producto', 'precio_2')) {
+                $table->decimal('precio_2', 15, 2)->nullable()->after('precio');
+            }
+            if (!Schema::hasColumn('producto', 'precio_3')) {
+                $table->decimal('precio_3', 15, 2)->nullable()->after('precio_2');
+            }
         });
 
         Schema::table('compra_detalle', function (Blueprint $table) {
-            $table->decimal('precio_venta1', 15, 2)->nullable()->after('descuento_valor');
-            $table->decimal('precio_venta2', 15, 2)->nullable()->after('precio_venta1');
-            $table->decimal('precio_venta3', 15, 2)->nullable()->after('precio_venta2');
+            if (!Schema::hasColumn('compra_detalle', 'precio_venta1')) {
+                $table->decimal('precio_venta1', 15, 2)->nullable()->after('descuento_valor');
+            }
+            if (!Schema::hasColumn('compra_detalle', 'precio_venta2')) {
+                $table->decimal('precio_venta2', 15, 2)->nullable()->after('precio_venta1');
+            }
+            if (!Schema::hasColumn('compra_detalle', 'precio_venta3')) {
+                $table->decimal('precio_venta3', 15, 2)->nullable()->after('precio_venta2');
+            }
         });
     }
 

@@ -10,8 +10,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devolucion', function (Blueprint $table) {
-            $table->unsignedBigInteger('movimiento_caja_id')->nullable()->after('monto_cartera_afectado');
-            $table->unsignedBigInteger('tesoreria_movimiento_id')->nullable()->after('movimiento_caja_id');
+            if (!Schema::hasColumn('devolucion', 'movimiento_caja_id')) {
+                $table->unsignedBigInteger('movimiento_caja_id')->nullable()->after('monto_cartera_afectado');
+            }
+            if (!Schema::hasColumn('devolucion', 'tesoreria_movimiento_id')) {
+                $table->unsignedBigInteger('tesoreria_movimiento_id')->nullable()->after('movimiento_caja_id');
+            }
 
             $table->foreign('movimiento_caja_id')->references('id')->on('movimiento_caja');
             $table->foreign('tesoreria_movimiento_id')->references('id')->on('tesoreria_movimiento');

@@ -10,10 +10,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devolucion', function (Blueprint $table) {
-            $table->string('metodo_devolucion', 30)->nullable()->after('estado');
+            if (!Schema::hasColumn('devolucion', 'metodo_devolucion')) {
+                $table->string('metodo_devolucion', 30)->nullable()->after('estado');
+            }
                 // EFECTIVO | TRANSFERENCIA | NOTA_CREDITO | SIN_DEVOLUCION
-            $table->boolean('afecto_cartera')->default(false)->after('metodo_devolucion');
-            $table->decimal('monto_cartera_afectado', 18, 2)->nullable()->after('afecto_cartera');
+            if (!Schema::hasColumn('devolucion', 'afecto_cartera')) {
+                $table->boolean('afecto_cartera')->default(false)->after('metodo_devolucion');
+            }
+            if (!Schema::hasColumn('devolucion', 'monto_cartera_afectado')) {
+                $table->decimal('monto_cartera_afectado', 18, 2)->nullable()->after('afecto_cartera');
+            }
         });
 
         DB::statement("COMMENT ON COLUMN devolucion.metodo_devolucion IS 'EFECTIVO | TRANSFERENCIA | NOTA_CREDITO | SIN_DEVOLUCION'");

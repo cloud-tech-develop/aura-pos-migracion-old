@@ -30,7 +30,9 @@ return new class extends Migration
         DB::statement("ALTER TABLE periodo_contable ADD CONSTRAINT chk_periodo_estado CHECK (estado IN ('ABIERTO', 'CERRADO'))");
 
         Schema::table('asiento_contable', function (Blueprint $table) {
-            $table->unsignedBigInteger('periodo_contable_id')->nullable()->after('id');
+            if (!Schema::hasColumn('asiento_contable', 'periodo_contable_id')) {
+                $table->unsignedBigInteger('periodo_contable_id')->nullable()->after('id');
+            }
             $table->foreign('periodo_contable_id')->references('id')->on('periodo_contable');
         });
     }

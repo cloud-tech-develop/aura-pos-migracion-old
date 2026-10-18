@@ -9,8 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('asiento_detalle', function (Blueprint $table) {
-            $table->unsignedBigInteger('tercero_id')->nullable()->after('id');
-            $table->unsignedBigInteger('centro_costo_id')->nullable()->after('tercero_id');
+            if (!Schema::hasColumn('asiento_detalle', 'tercero_id')) {
+                $table->unsignedBigInteger('tercero_id')->nullable()->after('id');
+            }
+            if (!Schema::hasColumn('asiento_detalle', 'centro_costo_id')) {
+                $table->unsignedBigInteger('centro_costo_id')->nullable()->after('tercero_id');
+            }
 
             $table->foreign('tercero_id')->references('id')->on('tercero');
             $table->foreign('centro_costo_id')->references('id')->on('centros_costos');

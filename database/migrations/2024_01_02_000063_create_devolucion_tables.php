@@ -57,7 +57,9 @@ return new class extends Migration
         });
 
         Schema::table('venta', function (Blueprint $table) {
-            $table->string('estado_devolucion', 20)->nullable();
+            if (!Schema::hasColumn('venta', 'estado_devolucion')) {
+                $table->string('estado_devolucion', 20)->nullable();
+            }
         });
     }
 
