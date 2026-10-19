@@ -10,8 +10,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('comision_config', function (Blueprint $table) {
-            $table->string('modalidad', 20)->default('SERVICIO')->after('tipo');
-            $table->unsignedInteger('categoria_id')->nullable()->after('producto_id');
+            if (!Schema::hasColumn('comision_config', 'modalidad')) {
+                $table->string('modalidad', 20)->default('SERVICIO')->after('tipo');
+            }
+            if (!Schema::hasColumn('comision_config', 'categoria_id')) {
+                $table->unsignedInteger('categoria_id')->nullable()->after('producto_id');
+            }
             $table->foreign('categoria_id')->references('id')->on('categoria');
 
             $table->index(['categoria_id', 'empresa_id', 'activo'], 'idx_comision_config_categoria');

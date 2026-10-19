@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tercero', function (Blueprint $table) {
-            $table->foreignId('municipio_id')->nullable()->constrained('municipios')->after('direccion');
+            if (!Schema::hasColumn('tercero', 'municipio_id')) {
+                $table->foreignId('municipio_id')->nullable()->constrained('municipios')->after('direccion');
+            }
         });
     }
 

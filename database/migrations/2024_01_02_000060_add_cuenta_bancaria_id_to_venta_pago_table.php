@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('venta_pago', function (Blueprint $table) {
-            $table->unsignedBigInteger('cuenta_bancaria_id')->nullable()->after('referencia');
+            if (!Schema::hasColumn('venta_pago', 'cuenta_bancaria_id')) {
+                $table->unsignedBigInteger('cuenta_bancaria_id')->nullable()->after('referencia');
+            }
             $table->foreign('cuenta_bancaria_id', 'fk_venta_pago_cuenta_bancaria')
                 ->references('id')->on('cuenta_bancaria');
         });

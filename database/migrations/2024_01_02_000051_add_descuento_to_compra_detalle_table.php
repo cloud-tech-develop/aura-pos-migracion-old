@@ -9,8 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('compra_detalle', function (Blueprint $table) {
-            $table->decimal('descuento_pct', 5, 2)->default(0)->after('impuesto_valor');
-            $table->decimal('descuento_valor', 15, 2)->default(0)->after('descuento_pct');
+            if (!Schema::hasColumn('compra_detalle', 'descuento_pct')) {
+                $table->decimal('descuento_pct', 5, 2)->default(0)->after('impuesto_valor');
+            }
+            if (!Schema::hasColumn('compra_detalle', 'descuento_valor')) {
+                $table->decimal('descuento_valor', 15, 2)->default(0)->after('descuento_pct');
+            }
         });
     }
 

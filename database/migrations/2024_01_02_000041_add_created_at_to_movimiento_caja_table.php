@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movimiento_caja', function (Blueprint $table) {
-            $table->timestamp('created_at')->useCurrent()->after('id');
+            if (!Schema::hasColumn('movimiento_caja', 'created_at')) {
+                $table->timestamp('created_at')->useCurrent()->after('id');
+            }
         });
     }
 

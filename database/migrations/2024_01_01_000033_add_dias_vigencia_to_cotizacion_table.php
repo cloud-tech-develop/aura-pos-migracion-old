@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cotizacion', function (Blueprint $table) {
-            $table->integer('dias_vigencia')->default(3)->nullable()->after('fecha_vencimiento');
+            if (!Schema::hasColumn('cotizacion', 'dias_vigencia')) {
+                $table->integer('dias_vigencia')->default(3)->nullable()->after('fecha_vencimiento');
+            }
         });
     }
 
